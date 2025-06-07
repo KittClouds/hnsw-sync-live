@@ -1,10 +1,9 @@
-
 import { embeddingService } from './EmbeddingService';
 import { Block } from '@blocknote/core';
 import { vecToBlob, blobToVec } from './binaryUtils';
 import { tables, events } from '../../livestore/schema';
 import { toast } from 'sonner';
-import { HNSW } from 'hnsw';
+import { HNSW } from './hnsw';
 
 interface NoteEmbedding {
   noteId: string;
