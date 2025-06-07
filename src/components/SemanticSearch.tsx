@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Search, Loader2, Zap, Database } from 'lucide-react';
+import { Search, Loader2, Zap, Database, Network } from 'lucide-react';
 import { useDebouncedCallback } from '@/hooks/useDebouncedCallback';
 import { semanticSearchService } from '@/lib/embedding/SemanticSearchService';
 import { useActiveNoteId, useNotes } from '@/hooks/useLiveStore';
@@ -59,7 +59,7 @@ export function SemanticSearch() {
     try {
       const count = await semanticSearchService.syncAllNotes(notes);
       setSyncCount(count);
-      toast.success(`Synchronized ${count} note embeddings`);
+      toast.success(`Synchronized ${count} note embeddings with HNSW index`);
     } catch (error) {
       console.error('Sync failed:', error);
       toast.error('Failed to sync embeddings');
@@ -78,7 +78,7 @@ export function SemanticSearch() {
         <div className="relative">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Semantic search..."
+            placeholder="HNSW semantic search..."
             className="pl-8"
             value={query}
             onChange={(e) => {
@@ -101,17 +101,18 @@ export function SemanticSearch() {
             ) : (
               <Zap className="h-4 w-4 mr-2" />
             )}
-            Sync Embeddings
+            Sync HNSW Index
           </Button>
           
-          {/* Display embedding status */}
+          {/* Display embedding status with HNSW indicator */}
           <div className="flex items-center justify-between text-xs text-muted-foreground">
             <div className="flex items-center">
               <Database className="h-3 w-3 mr-1" />
               <span>{embeddingCount} embeddings stored</span>
             </div>
             <div className="flex items-center">
-              <span>{syncCount} in memory</span>
+              <Network className="h-3 w-3 mr-1" />
+              <span>{syncCount} in HNSW index</span>
             </div>
           </div>
         </div>
